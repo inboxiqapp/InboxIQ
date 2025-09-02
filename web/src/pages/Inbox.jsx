@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import { getCurrentUser } from "../services/api";
 
 export default function Inbox() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    getCurrentUser().then(setUser);
+  }, []);
+
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">AI-Sorted Inbox</h2>
-      <p>Your emails will appear here.</p>
+    <div className="p-6">
+      {user ? (
+        <h2>Welcome, {user.email} 🎉</h2>
+      ) : (
+        <p>Loading your inbox...</p>
+      )}
     </div>
   );
 }
