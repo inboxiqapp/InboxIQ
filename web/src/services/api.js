@@ -23,3 +23,7 @@ export async function getCurrentUser() {
   if (!res.ok) return null;
   return res.json();
 }
+
+export function logout() {
+  window.location.href = "https://inboxiq-hf2n.onrender.com/api/auth/logout";
+}
