@@ -14,3 +14,12 @@ export async function getUserProfile() {
   }
   return res.json();
 }
+
+export async function getCurrentUser() {
+  const res = await fetch("https://inboxiq-hf2n.onrender.com/api/auth/me", {
+    credentials: "include" // <-- important so cookies are sent
+  });
+
+  if (!res.ok) return null;
+  return res.json();
+}
