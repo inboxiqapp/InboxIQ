@@ -1,0 +1,16 @@
+// src/services/api.js
+const API_URL = import.meta.env.VITE_API_URL;
+
+export function loginWithGoogle() {
+  window.location.href = `${API_URL}/api/auth/google`;
+}
+
+export async function getUserProfile() {
+  const res = await fetch(`${API_URL}/api/me`, {
+    credentials: "include"
+  });
+  if (!res.ok) {
+    throw new Error("Not authenticated");
+  }
+  return res.json();
+}
