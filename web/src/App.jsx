@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Login from './pages/Login';
-import Inbox from './pages/Inbox';
-import Settings from './pages/Settings';
+import Login from './pages/Login.jsx';
+import Inbox from './pages/Inbox.jsx';
+import Settings from './pages/Settings.jsx';
 
 function App() {
   return (
@@ -17,3 +17,4 @@ function App() {
 }
 
 export default App;
+
