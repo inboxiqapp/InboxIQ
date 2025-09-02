@@ -26,7 +26,7 @@ router.get(
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
     // Redirect to your frontend app
-    res.redirect("https://inboxiqappweb.vercel.app/Inbox");
+    res.redirect("https://inboxiqappweb.vercel.app/inbox");
   }
 );
 
@@ -39,4 +39,5 @@ router.get("/me", (req, res) => {
 });
 
 export default router;
+
 
