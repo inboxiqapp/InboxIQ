@@ -1,5 +1,5 @@
 import React from "react";
-import { loginWithGoogle } from "./services/api";
+import { loginWithGoogle } from "../services/api";
 
 export default function Login() {
   return (
@@ -17,3 +17,4 @@ export default function Login() {
     </div>
   );
 }
+
