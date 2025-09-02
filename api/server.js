@@ -1,13 +1,34 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const authRoutes = require('./routes/auth');
-const emailRoutes = require('./routes/email');
+import express from "express";
+import passport from "passport";
+import session from "cookie-session";
+import dotenv from "dotenv";
+import "./auth.js"; // Load Google OAuth strategy
+import authRoutes from "./routes/auth.js";
+
+dotenv.config();
 
 const app = express();
-app.use(bodyParser.json());
 
-app.use('/api/auth', authRoutes);
-app.use('/api/email', emailRoutes);
+// Session middleware
+app.use(
+  session({
+    name: "session",
+    keys: ["inboxiq-secret"],
+    maxAge: 24 * 60 * 60 * 1000
+  })
+);
 
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => console.log(`🚀 API running on port ${PORT}`));
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Routes
+app.use("/api/auth", authRoutes);
+
+app.get("/", (req, res) => {
+  res.send("🚀 InboxIQ API is running");
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`✅ Server running on port ${PORT}`);
+});
