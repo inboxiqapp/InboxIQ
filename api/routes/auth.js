@@ -38,6 +38,26 @@ router.get("/me", (req, res) => {
   res.json({ email: req.user.email });
 });
 
+//  Logout route
+router.get("/logout", (req, res) => {
+  req.logout(function (err) {
+    if (err) {
+      console.error("Logout error:", err);
+      return res.status(500).send("Error logging out");
+    }
+    req.session = null; // clear cookie-session
+    res.clearCookie("session"); // just to be safe
+    res.redirect("https://inboxiqappweb.vercel.app/"); // send back to login page
+  });
+});
+
+// Return current user session (already in your code?)
+router.get("/me", (req, res) => {
+  if (req.user) {
+    res.json(req.user);
+  } else {
+    res.status(401).send(null);
+  }
+});
+
 export default router;
-
-
