@@ -11,36 +11,33 @@ dotenv.config();
 
 const app = express();
 
-// Make sure SESSION_SECRET is set in production
-if (!process.env.SESSION_SECRET && process.env.NODE_ENV === "production") {
-  throw new Error("❌ SESSION_SECRET must be set in production");
-}
-
-// Session middleware
-app.use(
-  cookieSession({
-    name: "session",
-    keys: [process.env.SESSION_SECRET || "dev-secret"], // safe fallback in dev only
-    maxAge: 24 * 60 * 60 * 1000, // 1 day
-    httpOnly: true, // prevent JS access
-    secure: process.env.NODE_ENV === "production", // only HTTPS in prod
-    sameSite: "lax" // CSRF protection
-  })
-);
-
-app.use(passport.initialize());
-//app.use(passport.session());
-
-// Routes
-app.use("/api/auth", authRoutes);
-
-// --- Enable CORS so frontend can call API ---
+// --- CORS must come first ---
 app.use(
   cors({
     origin: "https://inboxiqappweb.vercel.app", // your Vercel frontend
-    credentials: true
+    credentials: true,
   })
 );
+
+// --- Secure session middleware ---
+app.use(
+  cookieSession({
+    name: "session",
+    keys: [process.env.SESSION_SECRET || "dev-secret"],
+    maxAge: 24 * 60 * 60 * 1000, // 1 day
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", // HTTPS only in prod
+    sameSite: "none", // required for cross-site cookies
+  })
+);
+
+// --- Passport setup ---
+app.use(passport.initialize());
+app.use(passport.session()); // <-- enable sessions!
+
+// --- Routes ---
+app.use("/api/auth", authRoutes);
+app.use("/api/gmail", gmailRoutes);
 
 // --- Current user endpoints ---
 app.get("/api/auth/me", (req, res) => {
@@ -62,12 +59,8 @@ app.get("/", (req, res) => {
   res.send("🚀 InboxIQ API is running");
 });
 
-app.use("/api/gmail", gmailRoutes);
-
 // --- Start server ---
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
 });
-
-
