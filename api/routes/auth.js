@@ -38,26 +38,28 @@ router.get("/me", (req, res) => {
   res.json({ email: req.user.email });
 });
 
-//  Logout route
-router.get("/logout", (req, res) => {
+// Logout route (with Passport v0.6+ support)
+router.get("/logout", (req, res, next) => {
   req.logout(function (err) {
     if (err) {
       console.error("Logout error:", err);
-      return res.status(500).send("Error logging out");
+      return next(err); // Pass to Express error handler
     }
-    req.session = null; // clear cookie-session
-    res.clearCookie("session"); // just to be safe
-    res.redirect("https://inboxiqappweb.vercel.app/"); // send back to login page
+    req.session = null; // Clear cookie-session
+    res.clearCookie("session");
+    res.redirect("https://inboxiqappweb.vercel.app/"); // Go back to login
   });
 });
 
-// Return current user session (already in your code?)
+// Current user
 router.get("/me", (req, res) => {
   if (req.user) {
-    res.json(req.user);
+    // Send only what frontend needs
+    res.json({ email: req.user.email });
   } else {
-    res.status(401).send(null);
+    res.status(401).json(null);
   }
 });
 
 export default router;
+
