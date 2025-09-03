@@ -61,6 +61,16 @@ router.get("/me", (req, res) => {
   }
 });
 
+// Get current logged-in user
+router.get("/current_user", (req, res) => {
+  if (req.user) {
+    res.json(req.user);
+  } else {
+    res.status(401).json({ error: "Unauthorized" });
+  }
+});
+
 export default router;
+
 
 
