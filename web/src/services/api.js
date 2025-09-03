@@ -24,6 +24,12 @@ export async function getCurrentUser() {
   return res.json();
 }
 
+export async function fetchEmails() {
+  const token = localStorage.getItem("accessToken");
+  const res = await fetch(`/api/gmail/messages?accessToken=${token}`);
+  return res.json();
+}
+
 export function logout() {
   window.location.href = "https://inboxiq-hf2n.onrender.com/api/auth/logout";
 }
