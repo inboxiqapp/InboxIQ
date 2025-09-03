@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import "./auth.js"; // Load Google OAuth strategy
 import authRoutes from "./routes/auth.js";
 import gmailRoutes from "./routes/gmail.js";
+import cors from "cors";
 
 dotenv.config();
 
@@ -39,9 +40,17 @@ app.get("/", (req, res) => {
 
 app.use("/api/gmail", gmailRoutes);
 
+app.use(
+  cors({
+    origin: "https://inboxiqappweb.vercel.app", // your Vercel frontend
+    credentials: true
+  })
+);
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
 });
+
 
 
