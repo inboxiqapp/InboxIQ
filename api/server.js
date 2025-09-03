@@ -4,6 +4,7 @@ import cookieSession from "cookie-session";
 import dotenv from "dotenv";
 import "./auth.js"; // Load Google OAuth strategy
 import authRoutes from "./routes/auth.js";
+import gmailRoutes from "./routes/gmail.js";
 
 dotenv.config();
 
@@ -36,8 +37,11 @@ app.get("/", (req, res) => {
   res.send("🚀 InboxIQ API is running");
 });
 
+app.use("/api/gmail", gmailRoutes);
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
 });
+
 
