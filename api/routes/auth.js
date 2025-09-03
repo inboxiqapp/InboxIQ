@@ -35,7 +35,9 @@ router.get("/me", (req, res) => {
   if (!req.user) {
     return res.status(401).json({ error: "Not logged in" });
   }
-  res.json({ email: req.user.email });
+  res.json({ email: req.user.email,
+             googleId: req.user.googleId
+           });
 });
 
 // Logout route (with Passport v0.6+ support)
@@ -71,6 +73,7 @@ router.get("/current_user", (req, res) => {
 });
 
 export default router;
+
 
 
 
