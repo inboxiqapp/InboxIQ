@@ -30,6 +30,17 @@ export async function fetchEmails() {
   return res.json();
 }
 
+export async function fetchMessages() {
+  const res = await fetch("https://inboxiq-hf2n.onrender.com/api/gmail/messages", {
+    credentials: "include"
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch Gmail messages");
+  }
+  return res.json();
+}
+
 export function logout() {
   window.location.href = "https://inboxiq-hf2n.onrender.com/api/auth/logout";
 }
