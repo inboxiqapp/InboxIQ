@@ -20,9 +20,9 @@ export default function Inbox() {
 
         try {
           // fetch Gmail messages from backend
-          const res = await fetch(
-            `/api/gmail/messages?accessToken=${u.accessToken}`
-          );
+          const res = await fetch("/api/gmail/messages", {
+            credentials: "include", // keep session cookie
+          });
           const data = await res.json();
           setEmails(data);
         } catch (err) {
@@ -72,3 +72,4 @@ export default function Inbox() {
     </div>
   );
 }
+
