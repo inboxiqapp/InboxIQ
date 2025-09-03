@@ -26,7 +26,7 @@ app.use(
     keys: [process.env.SESSION_SECRET || "dev-secret"],
     maxAge: 24 * 60 * 60 * 1000, // 1 day
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // HTTPS only in prod
+    secure: true, // HTTPS only in prod
     sameSite: "none", // required for cross-site cookies
   })
 );
@@ -64,3 +64,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
 });
+
