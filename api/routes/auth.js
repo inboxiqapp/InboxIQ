@@ -23,7 +23,7 @@ router.get(
 // Step 2: Handle callback
 router.get(
   "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/", session: false }),
+  passport.authenticate("google", { failureRedirect: "/", session: true }),
   (req, res) => {
     // Instead of session, return a token or redirect
     res.redirect("https://inboxiqappweb.vercel.app/inbox");
@@ -73,6 +73,7 @@ router.get("/current_user", (req, res) => {
 });
 
 export default router;
+
 
 
 
