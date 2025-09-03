@@ -44,20 +44,23 @@ export default function Inbox() {
           </p>
 
           {loading ? (
-            <p className="text-gray-500">Loading emails...</p>
-          ) : emails.length === 0 ? (
-            <p className="text-gray-500">No recent emails found.</p>
-          ) : (
-            <ul className="divide-y border rounded-lg bg-white shadow">
-              {emails.map((email) => (
-                <li key={email.id} className="p-4 hover:bg-gray-50">
-                  <p className="font-medium">{email.subject || "(No subject)"}</p>
-                  <p className="text-sm text-gray-600">{email.from}</p>
-                  <p className="text-xs text-gray-400">{email.date}</p>
-                </li>
-              ))}
-            </ul>
-          )}
+        <p className="text-gray-500">Loading your inbox...</p>
+      ) : emails.length > 0 ? (
+        <div className="space-y-4">
+          {emails.map((email) => (
+            <div
+              key={email.id}
+              className="p-4 bg-white rounded-lg shadow hover:shadow-md transition"
+            >
+              <h3 className="font-semibold">{email.subject}</h3>
+              <p className="text-sm text-gray-600">{email.from}</p>
+              <p className="text-gray-500 mt-1">{email.snippet}</p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className="text-gray-600">No emails found.</p>
+      )}
 
           <button
             onClick={logout}
@@ -72,4 +75,5 @@ export default function Inbox() {
     </div>
   );
 }
+
 
