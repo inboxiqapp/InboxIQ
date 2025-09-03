@@ -34,12 +34,7 @@ app.use(passport.initialize());
 // Routes
 app.use("/api/auth", authRoutes);
 
-app.get("/", (req, res) => {
-  res.send("🚀 InboxIQ API is running");
-});
-
-app.use("/api/gmail", gmailRoutes);
-
+// --- Enable CORS so frontend can call API ---
 app.use(
   cors({
     origin: "https://inboxiqappweb.vercel.app", // your Vercel frontend
@@ -47,10 +42,32 @@ app.use(
   })
 );
 
+// --- Current user endpoints ---
+app.get("/api/auth/me", (req, res) => {
+  if (!req.user) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+  res.json(req.user);
+});
+
+app.get("/api/auth/current_user", (req, res) => {
+  if (!req.user) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+  res.json(req.user);
+});
+
+// --- Root health check ---
+app.get("/", (req, res) => {
+  res.send("🚀 InboxIQ API is running");
+});
+
+app.use("/api/gmail", gmailRoutes);
+
+// --- Start server ---
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
 });
-
 
 
