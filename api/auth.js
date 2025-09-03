@@ -9,17 +9,20 @@ passport.use(
       callbackURL: "https://inboxiq-hf2n.onrender.com/api/auth/google/callback"
     },
     async (accessToken, refreshToken, profile, done) => {
-      const user = {
-        googleId: profile.id,
-        email: profile.emails[0].value,
-        accessToken,
-        refreshToken
-      };
-
-      // TODO: Save to DB here (Prisma or Supabase)
-      console.log("✅ Google user authenticated:", user.email);
-
-      return done(null, user);
+      try {
+        const user = {
+          googleId: profile.id,
+          email: profile.emails[0].value,
+          accessToken,
+          refreshToken
+        };
+    
+        console.log("✅ Google user authenticated:", user.email);
+        return done(null, user);
+      } catch (err) {
+        console.error("❌ Error in GoogleStrategy:", err);
+        return done(err, null);
+      }
     }
   )
 );
